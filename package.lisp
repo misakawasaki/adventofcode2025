@@ -6,7 +6,8 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (flet ((package (n)
            `(defpackage ,(format nil "ADVENTOFCODE2025/DAY~d" n)
-              (:use :cl)
+              (:shadow :validate)
+              (:use :cl :advent2025)
               (:export :part-1
                        :part-2
                        :validate))))
