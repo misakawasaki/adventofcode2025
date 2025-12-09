@@ -1,4 +1,4 @@
-(in :advent2025)
+(in-package :advent2025)
 
 (defun advent-pathname (pathname)
   (merge-pathnames pathname

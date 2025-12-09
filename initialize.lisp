@@ -22,7 +22,7 @@
                                           :type "txt")
                            (,(intern "SOLUTION-DIRECTORY" package))))
                        
-                       (defun ,(intern "SAMPLE-INPUT-PATHNAME" package) (&optinal (,(intern "N" package) 0))
+                       (defun ,(intern "SAMPLE-INPUT-PATHNAME" package) (&optional (,(intern "N" package) 0))
                          (merge-pathnames
                            (make-pathname :name (format nil "sample-input~[~:;-~:*~d~]" ,(intern "N" package))
                                           :type "txt")
