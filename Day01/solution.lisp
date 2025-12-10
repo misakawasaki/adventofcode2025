@@ -38,7 +38,7 @@
   (evaluate (input-pathname) nil))
 
 (defun evaluate (pathname &optional (ignore-cross t))
-  (let* ((lines (uiop:read-file-lines (input-pathname)))
+  (let* ((lines (uiop:read-file-lines pathname))
          (instructions (mapcar #'parse-instruction lines))
          (start +dial-start-point+)
          (count 0))
