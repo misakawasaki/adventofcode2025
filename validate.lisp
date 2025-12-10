@@ -6,7 +6,7 @@
     (let ((package (find-package (format nil "ADVENTOFCODE2025/DAY~2,'0D" i))))
       (when (and (boundp (intern "+SOLUTION-1+" package))
                  (boundp (intern "+SOLUTION-2+" package)))
-        (funcall (intern "VALIDATE" pacakge))))))
+        (funcall (intern "VALIDATE" package))))))
 
 (eval-when (:load-toplevel :execute)
   (validate))
