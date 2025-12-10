@@ -1,5 +1,5 @@
 (asdf:defsystem #:adventofcode2025
-  :depends-on (:alexandria)
+  :depends-on (:alexandria :cl-ppcre)
   :components ((:file "Day01/solution"  :depends-on ("misc" "package"))
                (:file "Day02/solution"  :depends-on ("misc" "package"))
                (:file "Day03/solution"  :depends-on ("misc" "package"))

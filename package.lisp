@@ -1,6 +1,6 @@
 (defpackage :adventofcode2025
   (:nicknames :advent2025)
-  (:use :cl)
+  (:use :cl :cl-ppcre :alexandria)
   (:export :validate))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
