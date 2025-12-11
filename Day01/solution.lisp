@@ -4,7 +4,7 @@
 (defparameter +solution-1+ 1145)
 (defparameter +solution-2+ 6561)
 
-(defun wrap (start delta &optional (limit 100) (ignore-cross t))
+(defun wrap (start delta &optional (ignore-cross t) (limit 100))
   (let* ((end (+ start delta))
          (wrapped (mod end limit)))
     (values (if ignore-cross
@@ -25,17 +25,11 @@
     
     (list :dir dir :dist dist)))
 
-(defun evaluate-instruction (point instruction &optional (limit 100) (ignore-cross t))
+(defun evaluate-instruction (point instruction &optional (ignore-cross t))
   (let* ((delta (alexandria:eswitch ((getf instruction :dir) :test #'string=)
                   ("L" (- (getf instruction :dist)))
                   ("R" (getf instruction :dist)))))
-    (wrap point delta limit ignore-cross)))
-
-(defun part-1 ()
-  (evaluate (input-pathname)))
-
-(defun part-2 ()
-  (evaluate (input-pathname) nil))
+    (wrap point delta ignore-cross)))
 
 (defun evaluate (pathname &optional (ignore-cross t))
   (let* ((lines (uiop:read-file-lines pathname))
@@ -44,6 +38,12 @@
          (count 0))
     (dolist (instr instructions count)
       (multiple-value-bind (hit rem)
-        (evaluate-instruction start instr 100 ignore-cross)
+        (evaluate-instruction start instr ignore-cross)
         (setf start rem)
         (incf count hit)))))
+
+(defun part-1 ()
+  (evaluate (input-pathname)))
+
+(defun part-2 ()
+  (evaluate (input-pathname) nil))
