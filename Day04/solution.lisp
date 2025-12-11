@@ -1,5 +1,7 @@
 (in-package :adventofcode2025/Day04)
 
+(defparameter +solution-1+ 1493)
+
 (defun read-char-grid (pathname)
   (let* ((lines-stream (series:scan-file pathname #'read-line))
          (rows-list (series:collect 'list
