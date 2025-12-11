@@ -1,13 +1,13 @@
 (defpackage :adventofcode2025
   (:nicknames :advent2025)
-  (:use :cl :cl-ppcre :alexandria)
+  (:use :cl :cl-ppcre :alexandria :iterate)
   (:export :validate))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (flet ((package (n)
            `(defpackage ,(format nil "ADVENTOFCODE2025/DAY~2,'0D" n)
               (:shadow :validate)
-              (:use :cl :advent2025)
+              (:use :cl :advent2025 :iterate)
               (:export :part-1
                        :part-2
                        :validate))))
