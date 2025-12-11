@@ -1,6 +1,7 @@
 (defpackage :adventofcode2025
   (:nicknames :advent2025)
-  (:use :cl :cl-ppcre :alexandria :iterate)
+  (:shadowing-import-from :series :let :let* :multiple-value-bind :funcall :defun)
+  (:use :cl :alexandria :series)
   (:export :validate))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
