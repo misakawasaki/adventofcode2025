@@ -12,23 +12,19 @@
           (cl-ppcre:split "\\s*,\\s*" input)))
 
 (defun invalid-p (id rule)
-  (if (cl-ppcre:scan rule (write-to-string id))
-      t
-      nil))
+  (cl-ppcre:scan rule (write-to-string id)))
 
-(defun parse-range (range rule)
-  (let ((start (car range))
-        (end   (cdr range)))
+(defun sum-invalidid-in-range (range rule)
+  (destructuring-bind (start . end) range
     (loop for id from start to end
           when (invalid-p id rule)
-          collect id)))
+          sum id)))
 
 (defun evaluate (pathname rule)
   (reduce #'+
-          (mapcan
-            (lambda (range) (parse-range range rule))
-            (parse-ranges (uiop:read-file-string pathname)))
-          :initial-value 0))
+          (mapcar 
+            (lambda (range) (sum-invalidid-in-range range rule))
+            (parse-ranges (uiop:read-file-string pathname)))))
 
 (defun part-1 ()
   (evaluate (input-pathname) "^(\\d+)\\1$"))
