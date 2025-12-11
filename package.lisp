@@ -15,8 +15,8 @@
     :+northwest+
     :2v+
     :on-grid?
-    :scan-grid
-    :grid-ref))
+    :grid-ref
+    scan-grid-coords))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (flet ((package (n)
