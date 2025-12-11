@@ -4,7 +4,7 @@
   (:use :cl :alexandria :series)
   (:export 
     :validate
-	  :row-list->grid
+    :row-list->grid
 	  :+north+
 	  :+northeast+
 	  :+east+
