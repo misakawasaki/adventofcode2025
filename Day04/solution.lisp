@@ -8,11 +8,10 @@
         +south+ +southwest+ +west+ +northwest+))
 
 (defun read-char-grid (pathname)
-  (let ((lines-stream (series:scan-file pathname #'read-line)))
-    (row-list->grid
-     (series:collect 'list
-       (series:map-fn 'list (lambda (s) (coerce s 'list))
-         (series:scan-file pathname #'read-line))))))
+  (row-list->grid
+    (series:collect 'list
+      (series:map-fn 'list (lambda (s) (coerce s 'list))
+        (series:scan-file pathname #'read-line)))))
 
 (defun count-neighboring-ats (grid c)
   (count-if (lambda (dir)
