@@ -5,18 +5,18 @@
   (:export 
     :validate
     :row-list->grid
-	  :+north+
-	  :+northeast+
-	  :+east+
-	  :+southeast+
-	  :+south+ 
-	  :+southwest+ 
-	  :+west+ 
-	  :+northwest+
-	  :2v+
-	  :on-grid?
-	  :scan-grid
-	  :grid-ref))
+    :+north+
+    :+northeast+
+    :+east+
+    :+southeast+
+    :+south+
+    :+southwest+
+    :+west+
+    :+northwest+
+    :2v+
+    :on-grid?
+    :scan-grid
+    :grid-ref))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (flet ((package (n)
