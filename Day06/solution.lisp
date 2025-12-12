@@ -3,51 +3,60 @@
 (defparameter +solution-1+ 8108520669952)
 (defparameter +solution-2+ 11708563470209)
 
-(defun sum-columnwise (operators &rest rows)
-  (loop for op in operators
-        for i from 0
-        sum (apply op (mapcar (lambda (row) (aref row i)) rows))))
-
-(defun get-ruler-indices (ruler-string)
-  (loop for char across ruler-string
+(defun extract-column-headers (header-line)
+  (loop for char across header-line
         for index from 0
         unless (char= char #\Space)
-          collect index))
+          collect (intern (string char)) into headers
+          and collect index into indices
+        finally (return (values headers indices))))
 
-(defun slice-by-indices (target-string indices)
+(defun extract-column-values (line indices)
   (loop for (start next-start) on indices
-        collect (subseq target-string 
-                        start 
+        collect (subseq line
+                        start
                         (and next-start (1- next-start)))))
-    
-(defun parse-vertical-numbers (lists)
-  (let ((groups (apply #'mapcar #'list lists)))
-    (loop for group in groups
-          collect
-          (loop for i from 0 below (length (first group))
-                collect
-                (let ((vertical-str (map 'string (lambda (s) (char s i)) group)))
-                  (parse-integer vertical-str :junk-allowed t))))))
 
-(defun sum-2 (operators &rest rows)
-  (let ((vertical-numbers (parse-vertical-numbers rows)))
-    (loop for op in operators
-          for vn in vertical-numbers
-          sum (apply op vn))))
+(defun parse-column-integers (rows-of-strings)
+  (apply #'mapcar
+         (lambda (&rest items)
+           (mapcar (lambda (item) (parse-integer item :junk-allowed t)) items))
+         rows-of-strings))
+
+(defun parse-vertical-integers (column-blocks)
+  (let ((transposed-blocks (apply #'mapcar #'list column-blocks)))
+    (loop for block in transposed-blocks
+          collect
+          (loop for i from 0 below (length (first block))
+                collect
+                (let ((vertical-string (map 'string 
+                                            (lambda (s) (char s i)) 
+                                            block)))
+                  (parse-integer vertical-string :junk-allowed t))))))
+
+(defun sum-columnwise (operators parse-row-fn &rest rows)
+  (let ((integers (funcall parse-row-fn rows)))
+    (loop for op  in operators
+          for num in integers 
+          sum (apply op num))))
+
+(defun evaluate (input parse-row-fn)
+  (let* ((rows (reverse (uiop:read-file-lines input)))
+         (operators-line (car rows))) ;; The bottom line
+    
+    (multiple-value-bind (ops indices) 
+        (extract-column-headers operators-line)
+      (let ((parsed-rows 
+             (mapcar (lambda (row) 
+                       (extract-column-values row indices)) 
+                     (cdr rows))))  
+        (apply #'sum-columnwise
+               ops
+               parse-row-fn
+               (reverse parsed-rows))))))
 
 (defun part-1 ()
-  (let* ((lines (reverse (uiop:read-file-lines (input-pathname))))
-         (args  (mapcar (lambda (line) (cl-ppcre:split "\\s+" (string-trim " " line))) lines)))
-    (apply #'sum-columnwise 
-	       (mapcar #'intern (car args))
-           (mapcar (lambda (arg)
-		             (map 'vector #'parse-integer arg))
-                   (cdr args)))))
+  (evaluate (input-pathname) #'parse-column-integers))
 
 (defun part-2 ()
-  (let* ((lines (reverse (uiop:read-file-lines (input-pathname))))
-	 (operators (car lines))
-	 (rule (get-ruler-indices operators)))
-    (apply #'sum-2 
-	   (mapcar #'intern (cl-ppcre:split "\\s+" (string-trim " " operators)))
-	   (reverse (mapcar (lambda (line) (slice-by-indices line rule)) (cdr lines))))))
+  (evaluate (input-pathname) #'parse-vertical-integers))
