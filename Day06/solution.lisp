@@ -33,15 +33,15 @@
   (let ((vertical-numbers (parse-vertical-numbers rows)))
     (loop for op in operators
           for vn in vertical-numbers
-          sum (apply op vn)))
+          sum (apply op vn))))
 
 (defun part-1 ()
-  (let* ((lines (reverse (uiop:read-file-lines (input-pathname)))))
+  (let* ((lines (reverse (uiop:read-file-lines (input-pathname))))
          (args  (mapcar (lambda (line) (cl-ppcre:split "\\s+" (string-trim " " line))) lines)))
     (apply #'sum-columnwise 
-	   (mapcar #'intern (car args))
+	       (mapcar #'intern (car args))
            (mapcar (lambda (arg)
-		           (map 'vector #'parse-integer arg))
+		             (map 'vector #'parse-integer arg))
                    (cdr args)))))
 
 (defun part-2 ()
