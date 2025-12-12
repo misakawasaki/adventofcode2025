@@ -42,7 +42,7 @@
 
 (defun evaluate (input parse-row-fn)
   (let* ((rows (reverse (uiop:read-file-lines input)))
-         (operators-line (car rows))) ;; The bottom line
+         (operators-line (car rows)))
     
     (multiple-value-bind (ops indices) 
         (extract-column-headers operators-line)
