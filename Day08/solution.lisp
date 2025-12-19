@@ -61,8 +61,9 @@
 	    do (progn
 	         (decf cluster-count)
 	         (setf last-x-distance (* (first p1) (first p2))))
-	  when (or (and limit (= i limit))
-		   (= cluster-count 1))
+	  when (or 
+		 (and limit (= i limit))
+		 (= cluster-count 1))
 	    return (values uf last-x-distance)
 	  finally (return (values uf last-x-distance)))))
 
