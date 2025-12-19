@@ -52,7 +52,7 @@
 (defun connect-points-upto (points &optional limit)
   (let* ((sorted-edges (sort-pairs-by-distance points))
          (uf (make-union-find points))
-	       (cluster-count (length points))
+         (cluster-count (length points))
          (count 0)
          (last-x-distance 0))
     (loop for (p1 p2) in sorted-edges
